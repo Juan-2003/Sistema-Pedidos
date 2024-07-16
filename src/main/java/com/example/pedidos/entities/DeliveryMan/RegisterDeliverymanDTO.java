@@ -1,4 +1,4 @@
-package com.example.pedidos.entities.deliveryMan;
+package com.example.pedidos.entities.DeliveryMan;
 
 import com.example.pedidos.entities.Vehicle.VehicleDataDTO;
 import com.example.pedidos.entities.Account.AccountDTO;

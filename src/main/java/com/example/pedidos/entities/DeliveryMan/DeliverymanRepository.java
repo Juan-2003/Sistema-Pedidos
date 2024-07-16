@@ -1,4 +1,4 @@
-package com.example.pedidos.entities.deliveryMan;
+package com.example.pedidos.entities.DeliveryMan;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

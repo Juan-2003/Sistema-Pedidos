@@ -8,7 +8,6 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Getter
-@Setter
 @Embeddable
 public class Data{
     private String name;

@@ -1,10 +1,9 @@
 package com.example.pedidos.Controller;
 
-import com.example.pedidos.entities.deliveryMan.DeliverymanRepository;
-import com.example.pedidos.entities.deliveryMan.RegisterDeliverymanDTO;
+import com.example.pedidos.entities.DeliveryMan.DeliverymanRepository;
+import com.example.pedidos.entities.DeliveryMan.RegisterDeliverymanDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
