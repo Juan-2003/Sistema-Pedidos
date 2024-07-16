@@ -1,11 +1,15 @@
 package com.example.pedidos.entities.Client;
 
 import com.example.pedidos.entities.Account.Account;
+import com.example.pedidos.entities.ProductAndOrder.Order.Order;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "Client")
 @Table(name = "client")
@@ -22,7 +26,8 @@ public class Client {
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
 
-    //Hace falta la lista de ordenes
+    @OneToMany(mappedBy = "client")
+    private List<Order> orderList = new ArrayList<>();
 
 
 }

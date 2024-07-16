@@ -1,5 +1,6 @@
 package com.example.pedidos.entities.DeliveryMan;
 
+import com.example.pedidos.entities.ProductAndOrder.Order.Order;
 import com.example.pedidos.entities.Vehicle.VehicleData;
 import com.example.pedidos.entities.Account.Account;
 import jakarta.persistence.*;
@@ -27,6 +28,7 @@ public class Deliveryman {
     @JoinColumn(name = "vehicle_data_id", referencedColumnName = "id")
     private VehicleData vehicleData;
 
-    //Hace falta la llave foranea de la orden
+    @OneToOne(mappedBy = "deliveryman")
+    private Order order;
 
 }
