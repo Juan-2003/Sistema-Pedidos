@@ -1,0 +1,1 @@
+ALTER TABLE account add role varchar(20) NOT NULL;
