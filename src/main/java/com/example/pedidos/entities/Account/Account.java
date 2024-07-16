@@ -1,5 +1,6 @@
 package com.example.pedidos.entities.Account;
 
+import com.example.pedidos.entities.Data;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,14 +22,23 @@ public class Account {
     @Enumerated(EnumType.STRING)
     AccountRole accountRole;
 
-    public Account(String mail, String password) {
+    @Embedded
+    private Data data;
+
+    public Account(String mail, String password, Data data) {
         this.mail = mail;
         this.password = password;
+        this.data = new Data(data.getName(), data.getMaternalSurName(), data.getPaternalSurName(),
+                data.getAddress(), data.getPhoneNumber(), data.getBirthday());
     }
 
     @Override
     public String toString() {
-        return  "Mail='" + mail + '\'' +
-                "Password='" + password;
+        return "Account{" +
+                "id=" + id +
+                ", mail='" + mail + '\'' +
+                ", password='" + password + '\'' +
+                ", accountRole=" + accountRole +
+                '}';
     }
 }

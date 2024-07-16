@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Embeddable
-public class Data extends Account{
+public class Data{
     private String name;
     private String maternalSurName;
     private String paternalSurName;
@@ -23,15 +23,13 @@ public class Data extends Account{
     public Data(){}
 
     public Data(String name, String maternalSurName, String paternalSurName,
-                String address, String phoneNumber, String birthday,
-                String mail, String password){
-        super(mail, password);
+                String address, String phoneNumber, LocalDate birthday){
         this.name = name;
         this.maternalSurName = maternalSurName;
         this.paternalSurName = paternalSurName;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.birthday = LocalDate.parse(birthday);
+        this.birthday = birthday;
     }
 
     @Override
