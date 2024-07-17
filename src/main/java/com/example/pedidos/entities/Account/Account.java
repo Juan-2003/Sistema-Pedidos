@@ -22,6 +22,8 @@ public class Account {
 
     private String mail;
     private String password;
+
+    @Column(name = "role")
     private AccountRole accountRole;
 
     @Embedded

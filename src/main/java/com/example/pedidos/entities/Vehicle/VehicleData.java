@@ -18,6 +18,7 @@ public class VehicleData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private Vehicle vehicleType;
     private String plates;
