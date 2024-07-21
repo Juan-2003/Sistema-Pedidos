@@ -1,4 +1,4 @@
-package com.example.pedidos.entities;
+package com.example.pedidos.Data;
 
 import com.example.pedidos.entities.Account.AccountDTO;
 import com.fasterxml.jackson.annotation.JsonAlias;
@@ -18,7 +18,7 @@ public record DataDTO(
         String address,
         @NotBlank
         String phoneNumber,
-        @NotBlank
+        @NotNull
         LocalDate birthday
 ) {
 }

@@ -5,10 +5,10 @@ CREATE TABLE account(
     role varchar(20) NOT NULL,
 
     name varchar(50) NOT NULL,
-    maternalSurName varchar(50) NOT NULL,
-    paternalSurName varchar(50) NOT NULL,
+    maternal_sur_Name varchar(50) NOT NULL,
+    paternal_sur_name varchar(50) NOT NULL,
     address varchar(75) NOT NULL,
-    phoneNumber varchar(10) NOT NULL,
+    phone_number varchar(10) NOT NULL,
     birthday date NOT NULL,
 
     primary key(id)

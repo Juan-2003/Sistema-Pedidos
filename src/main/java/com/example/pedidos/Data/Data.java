@@ -1,6 +1,7 @@
-package com.example.pedidos.entities;
+package com.example.pedidos.Data;
 
 import com.example.pedidos.entities.Account.Account;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,10 +12,18 @@ import java.time.LocalDate;
 @Embeddable
 public class Data{
     private String name;
+
+    @Column(name = "maternal_sur_name")
     private String maternalSurName;
+
+    @Column(name = "paternal_sur_name")
     private String paternalSurName;
+
     private String address;
+
+    @Column(name = "phone_number")
     private String phoneNumber;
+
     private LocalDate birthday;
 
     //Tarjeta de debito o credito
@@ -29,6 +38,15 @@ public class Data{
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.birthday = birthday;
+    }
+
+    public Data(DataDTO dataDTO){
+        this.name = dataDTO.name();
+        this.paternalSurName = dataDTO.paternalSurName();
+        this.maternalSurName = dataDTO.maternalSurName();
+        this.address = dataDTO.address();
+        this.phoneNumber = dataDTO.phoneNumber();
+        this.birthday = dataDTO.birthday();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.example.pedidos.entities.Account;
 
-import com.example.pedidos.entities.Data;
+import com.example.pedidos.Data.Data;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -37,9 +37,16 @@ public class Account {
         this.data = new Data(name, maternalSurName, paternalSurName, address, phoneNumber, birthday);
     }
 
+    public Account(AccountDTO accountDTO){
+        this.mail = accountDTO.mail();
+        this.password = accountDTO.password();
+        this.accountRole = AccountRole.fromString(accountDTO.role());
+        this.data = new Data(accountDTO.dataDTO());
+    }
+
     @Override
     public String toString() {
-        return "Account{" +
+        return  data.toString() +
                 ", mail='" + mail + '\'' +
                 ", password='" + password + '\'' +
                 ", accountRole=" + accountRole +

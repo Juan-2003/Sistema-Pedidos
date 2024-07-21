@@ -2,7 +2,7 @@ package com.example.pedidos.entities.DeliveryMan;
 
 import com.example.pedidos.entities.Vehicle.VehicleDataDTO;
 import com.example.pedidos.entities.Account.AccountDTO;
-import com.example.pedidos.entities.DataDTO;
+import com.example.pedidos.Data.DataDTO;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.validation.constraints.NotNull;
 

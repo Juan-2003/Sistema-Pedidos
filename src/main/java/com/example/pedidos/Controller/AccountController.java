@@ -1,14 +1,14 @@
 package com.example.pedidos.Controller;
 
-import com.example.pedidos.entities.Account.AccountDTO;
-import com.example.pedidos.entities.Account.AccountRepository;
-import com.example.pedidos.entities.Account.AccountRole;
+import com.example.pedidos.entities.Account.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/account")
@@ -16,9 +16,22 @@ public class AccountController {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private AccountService accountService;
+
     @PostMapping
-    public void registerAccount(@RequestBody @Valid AccountDTO accountDTO){
-        System.out.println(AccountRole.fromString(accountDTO.role()));
-        System.out.println(accountDTO);
+    public ResponseEntity<DetallesAccountDTO> registerAccount(@RequestBody @Valid AccountDTO accountDTO, UriComponentsBuilder uriComponentsBuilder){
+        DetallesAccountDTO detallesAccountDTO = accountService.registerAccount(accountDTO);
+
+        URI url = uriComponentsBuilder.path("/account/{id}")
+                .buildAndExpand(detallesAccountDTO.id())
+                .toUri();
+
+        return ResponseEntity.created(url).body(detallesAccountDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Account>> mostrarAccounts(){
+        return ResponseEntity.ok(accountRepository.findAll());
     }
 }
