@@ -15,4 +15,11 @@ public class AccountService {
         return new DetailsAccountDTO(account);
 
     }
+
+    public DetailsAccountDTO updateAcconunt(UpdateAccountDTO updateAccountDTO){
+        Account account = accountRepository.getReferenceById(updateAccountDTO.id());
+        account.update(updateAccountDTO);
+
+        return new DetailsAccountDTO(account);
+    }
 }

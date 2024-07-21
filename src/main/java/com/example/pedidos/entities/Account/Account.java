@@ -45,6 +45,15 @@ public class Account {
         this.data = new Data(accountDTO.dataDTO());
     }
 
+    public void update(UpdateAccountDTO updateAccountDTO){
+        if(updateAccountDTO.updateDataDTO() != null){
+            data.update(updateAccountDTO.updateDataDTO());
+        }
+        if(updateAccountDTO.password() != null){
+            this.password = updateAccountDTO.password();
+        }
+    }
+
     @Override
     public String toString() {
         return  data.toString() +

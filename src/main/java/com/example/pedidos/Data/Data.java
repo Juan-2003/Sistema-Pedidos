@@ -49,6 +49,24 @@ public class Data{
         this.birthday = dataDTO.birthday();
     }
 
+    public void update(UpdateDataDTO updateDataDTO){
+        if(updateDataDTO.name() != null){
+            this.name = updateDataDTO.name();
+        }
+        if(updateDataDTO.maternalSurName() != null){
+            this.maternalSurName = updateDataDTO.maternalSurName();
+        }
+        if(updateDataDTO.paternalSurName() != null){
+            this.paternalSurName = updateDataDTO.paternalSurName();
+        }
+        if(updateDataDTO.address() != null){
+            this.address = updateDataDTO.address();
+        }
+        if(updateDataDTO.phoneNumber() != null){
+            this.phoneNumber = updateDataDTO.phoneNumber();
+        }
+    }
+
     @Override
     public String toString() {
         return  "Name='" + name + '\'' +

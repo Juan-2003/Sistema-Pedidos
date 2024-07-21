@@ -1,6 +1,7 @@
 package com.example.pedidos.Controller;
 
 import com.example.pedidos.entities.Account.*;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,4 +38,18 @@ public class AccountController {
     public ResponseEntity<Page<ShowAccountDTO>> showAccounts(Pageable pageable){
         return ResponseEntity.ok(accountRepository.findAll(pageable).map(ShowAccountDTO::new));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ShowAccountDTO> showAccount(@PathVariable Long id){
+        return ResponseEntity.ok(new ShowAccountDTO(accountRepository.getReferenceById(id)));
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<DetailsAccountDTO> updateAccount(@RequestBody @Valid UpdateAccountDTO updateAccountDTO){
+        DetailsAccountDTO detailsAccountDTO = accountService.updateAcconunt(updateAccountDTO);
+        return ResponseEntity.ok(detailsAccountDTO);
+    }
+
+
 }
