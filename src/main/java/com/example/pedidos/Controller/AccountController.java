@@ -51,5 +51,15 @@ public class AccountController {
         return ResponseEntity.ok(detailsAccountDTO);
     }
 
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deleteAccount(@PathVariable Long id){
+        if(accountService.deleteAccount(id)){
+            return ResponseEntity.noContent().build();
+        }else{
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 
 }

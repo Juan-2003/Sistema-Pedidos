@@ -3,6 +3,8 @@ package com.example.pedidos.entities.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AccountService {
     @Autowired
@@ -21,5 +23,15 @@ public class AccountService {
         account.update(updateAccountDTO);
 
         return new DetailsAccountDTO(account);
+    }
+
+    public boolean deleteAccount(Long id){
+        Optional<Account> account = accountRepository.findById(id);
+
+        if(account.isEmpty()){
+            return false;
+        }
+        accountRepository.delete(account.get());
+        return true;
     }
 }
