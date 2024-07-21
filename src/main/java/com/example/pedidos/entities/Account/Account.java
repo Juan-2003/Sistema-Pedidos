@@ -24,6 +24,7 @@ public class Account {
     private String password;
 
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private AccountRole accountRole;
 
     @Embedded
