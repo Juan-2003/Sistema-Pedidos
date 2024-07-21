@@ -1,12 +1,8 @@
 package com.example.pedidos.Data;
 
-import com.example.pedidos.entities.Account.Account;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDate;
 
-public record DetallesDataDTO(
+public record DetailsDataDTO(
         String name,
         String maternalSurName,
         String paternalSurName,
@@ -14,7 +10,7 @@ public record DetallesDataDTO(
         String phoneNumber,
         LocalDate birthday
 ) {
-    public DetallesDataDTO(Data data){
+    public DetailsDataDTO(Data data){
         this(
                 data.getName(),
                 data.getMaternalSurName(),

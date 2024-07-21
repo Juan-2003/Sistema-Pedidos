@@ -3,12 +3,15 @@ package com.example.pedidos.Controller;
 import com.example.pedidos.entities.Account.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/account")
@@ -20,18 +23,18 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<DetallesAccountDTO> registerAccount(@RequestBody @Valid AccountDTO accountDTO, UriComponentsBuilder uriComponentsBuilder){
-        DetallesAccountDTO detallesAccountDTO = accountService.registerAccount(accountDTO);
+    public ResponseEntity<DetailsAccountDTO> registerAccount(@RequestBody @Valid AccountDTO accountDTO, UriComponentsBuilder uriComponentsBuilder){
+        DetailsAccountDTO detailsAccountDTO = accountService.registerAccount(accountDTO);
 
         URI url = uriComponentsBuilder.path("/account/{id}")
-                .buildAndExpand(detallesAccountDTO.id())
+                .buildAndExpand(detailsAccountDTO.id())
                 .toUri();
 
-        return ResponseEntity.created(url).body(detallesAccountDTO);
+        return ResponseEntity.created(url).body(detailsAccountDTO);
     }
 
     @GetMapping
-    public ResponseEntity<List<Account>> mostrarAccounts(){
-        return ResponseEntity.ok(accountRepository.findAll());
+    public ResponseEntity<Page<ShowAccountDTO>> showAccounts(Pageable pageable){
+        return ResponseEntity.ok(accountRepository.findAll(pageable).map(ShowAccountDTO::new));
     }
 }
