@@ -1,12 +1,11 @@
 package com.example.pedidos.entities.Vehicle;
 
-import com.example.pedidos.entities.Vehicle.Vehicle;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record VehicleDataDTO(
+public record RegisterVehicleDataDTO(
         @NotNull
-        Vehicle vehicleType,
+        VehicleType vehicleType,
         @NotBlank
         String plates
 ) {

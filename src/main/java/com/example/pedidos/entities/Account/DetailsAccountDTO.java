@@ -2,10 +2,12 @@ package com.example.pedidos.entities.Account;
 
 import com.example.pedidos.Data.DetailsDataDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder({"accountId", "data", "mail", "password", "role"})
 public record DetailsAccountDTO(
         @JsonProperty("accountId") Long id,
-        DetailsDataDTO data,
+        @JsonProperty("data")DetailsDataDTO detailsDataDTO,
         String mail,
         String password,
         String role

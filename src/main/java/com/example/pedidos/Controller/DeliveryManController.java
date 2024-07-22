@@ -1,13 +1,18 @@
 package com.example.pedidos.Controller;
 
-import com.example.pedidos.entities.DeliveryMan.DeliverymanRepository;
-import com.example.pedidos.entities.DeliveryMan.RegisterDeliverymanDTO;
+import com.example.pedidos.entities.DeliveryMan.*;
+import com.example.pedidos.entities.Vehicle.ShowVehicleData;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/deliveryman")
@@ -15,8 +20,41 @@ public class DeliveryManController {
     @Autowired
     private DeliverymanRepository deliverymanRepository;
 
+    @Autowired
+    private DeliverymanService deliverymanService;
+
     @PostMapping
-    public void registerDeliveryMan(@RequestBody @Valid RegisterDeliverymanDTO registerDeliverymanDTO){
-        System.out.println(registerDeliverymanDTO);
+    public ResponseEntity<DetailsDeliverymanDTO> registerDeliveryMan(@RequestBody @Valid RegisterDeliverymanDTO registerDeliverymanDTO, UriComponentsBuilder uriComponentsBuilder){
+        DetailsDeliverymanDTO detailsDeliverymanDTO = deliverymanService.registerDeliveryman(registerDeliverymanDTO);
+
+        URI url = uriComponentsBuilder.path("/deliveryman/{id}")
+                .buildAndExpand(detailsDeliverymanDTO.id())
+                .toUri();
+
+        return ResponseEntity.created(url).body(detailsDeliverymanDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<ShowDeliverymanDTO>> showDeliverymans(Pageable pageable){
+        return ResponseEntity.ok(deliverymanRepository.findAll(pageable).map(ShowDeliverymanDTO::new));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ShowDeliverymanDTO> showDeliveryman(@PathVariable Long id){
+        return ResponseEntity.ok(new ShowDeliverymanDTO(deliverymanRepository.getReferenceById(id)));
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<DetailsDeliverymanDTO> updateDeliveryman(@RequestBody @Valid UpdateDeliverymanDTO updateDeliverymanDTO){
+        DetailsDeliverymanDTO detailsDeliverymanDTO = deliverymanService.updateDeliveryman(updateDeliverymanDTO);
+        return ResponseEntity.ok(detailsDeliverymanDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deleteDeliveryman(@PathVariable Long id){
+        return (deliverymanService.deleteDeliveryman(id))? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+
     }
 }

@@ -1,6 +1,7 @@
 package com.example.pedidos.entities.DeliveryMan;
 
 import com.example.pedidos.entities.ProductAndOrder.Order.Order;
+import com.example.pedidos.entities.Vehicle.RegisterVehicleDataDTO;
 import com.example.pedidos.entities.Vehicle.VehicleData;
 import com.example.pedidos.entities.Account.Account;
 import jakarta.persistence.*;
@@ -10,7 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "Deliveryman")
-@Table(name = "delivery_man")
+@Table(name = "deliveryman")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -30,5 +31,15 @@ public class Deliveryman {
 
     @OneToOne(mappedBy = "deliveryman")
     private Order order;
+
+    public Deliveryman(RegisterDeliverymanDTO registerDeliverymanDTO){
+        this.account = new Account(registerDeliverymanDTO.registerAccountDTO());
+        this.vehicleData = new VehicleData(registerDeliverymanDTO.registerVehicleDataDTO());
+    }
+
+    public void update(UpdateDeliverymanDTO updateDeliverymanDTO){
+        account.update(updateDeliverymanDTO.updateAccountDTO());
+        vehicleData.update(updateDeliverymanDTO.updateVehicleDataDTO());
+    }
 
 }
