@@ -1,15 +1,16 @@
 package com.example.pedidos.entities.Account;
 
 import com.example.pedidos.Data.DetailsDataDTO;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record DetailsAccountDTO(
-        Long id,
+        @JsonProperty("accountId") Long id,
         DetailsDataDTO data,
         String mail,
         String password,
         String role
 ) {
-    DetailsAccountDTO(Account account){
+    public DetailsAccountDTO(Account account){
         this(
                 account.getId(),
                 new DetailsDataDTO(account.getData()),

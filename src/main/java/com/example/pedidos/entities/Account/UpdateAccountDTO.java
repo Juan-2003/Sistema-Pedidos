@@ -7,8 +7,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record UpdateAccountDTO(
     @NotNull
-    Long id,
-    @NotNull
     @JsonProperty("data") UpdateDataDTO updateDataDTO,
     @NotBlank
     String password

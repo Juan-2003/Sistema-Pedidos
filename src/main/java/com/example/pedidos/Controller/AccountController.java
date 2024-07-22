@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/account")
@@ -24,8 +22,8 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<DetailsAccountDTO> registerAccount(@RequestBody @Valid AccountDTO accountDTO, UriComponentsBuilder uriComponentsBuilder){
-        DetailsAccountDTO detailsAccountDTO = accountService.registerAccount(accountDTO);
+    public ResponseEntity<DetailsAccountDTO> registerAccount(@RequestBody @Valid RegisterAccountDTO registerAccountDTO, UriComponentsBuilder uriComponentsBuilder){
+        DetailsAccountDTO detailsAccountDTO = accountService.registerAccount(registerAccountDTO);
 
         URI url = uriComponentsBuilder.path("/account/{id}")
                 .buildAndExpand(detailsAccountDTO.id())
@@ -46,9 +44,9 @@ public class AccountController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity<DetailsAccountDTO> updateAccount(@RequestBody @Valid UpdateAccountDTO updateAccountDTO){
-        DetailsAccountDTO detailsAccountDTO = accountService.updateAcconunt(updateAccountDTO);
-        return ResponseEntity.ok(detailsAccountDTO);
+    public void updateAccount(@RequestBody @Valid UpdateAccountDTO updateAccountDTO){
+        /*DetailsAccountDTO detailsAccountDTO = accountService.updateAccount(updateAccountDTO);
+        return ResponseEntity.ok(detailsAccountDTO);*/
     }
 
     @DeleteMapping("/{id}")
@@ -57,7 +55,7 @@ public class AccountController {
         if(accountService.deleteAccount(id)){
             return ResponseEntity.noContent().build();
         }else{
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
     }
 

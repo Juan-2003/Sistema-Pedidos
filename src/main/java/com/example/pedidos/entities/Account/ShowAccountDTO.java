@@ -3,9 +3,11 @@ package com.example.pedidos.entities.Account;
 import com.example.pedidos.Data.ShowDataDTO;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder({"accountId", "data", "mail"})
 public record ShowAccountDTO(
-    Long id,
+    @JsonProperty("accountId")Long id,
     @JsonProperty("data") ShowDataDTO showDataDTO,
     String mail
 ) {

@@ -38,11 +38,11 @@ public class Account {
         this.data = new Data(name, maternalSurName, paternalSurName, address, phoneNumber, birthday);
     }
 
-    public Account(AccountDTO accountDTO){
-        this.mail = accountDTO.mail();
-        this.password = accountDTO.password();
-        this.accountRole = AccountRole.fromString(accountDTO.role());
-        this.data = new Data(accountDTO.dataDTO());
+    public Account(RegisterAccountDTO registerAccountDTO){
+        this.mail = registerAccountDTO.mail();
+        this.password = registerAccountDTO.password();
+        this.accountRole = AccountRole.fromString(registerAccountDTO.role());
+        this.data = new Data(registerAccountDTO.dataDTO());
     }
 
     public void update(UpdateAccountDTO updateAccountDTO){

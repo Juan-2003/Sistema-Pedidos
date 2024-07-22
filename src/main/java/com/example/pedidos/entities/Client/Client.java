@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.sql.Update;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,5 +30,14 @@ public class Client {
     @OneToMany(mappedBy = "client")
     private List<Order> orderList = new ArrayList<>();
 
+    Client(RegisterClientDTO registerClientDTO){
+        this.account = new Account(registerClientDTO.registerAccountDTO());
+    }
+
+    public void update(UpdateClientDTO updateClientDTO){
+        if(updateClientDTO.updateAccountDTO() != null){
+            account.update(updateClientDTO.updateAccountDTO());
+        }
+    }
 
 }
