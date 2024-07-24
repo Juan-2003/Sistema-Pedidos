@@ -19,8 +19,28 @@ public class Product {
 
     private String name;
     private String description;
-    private Integer price;
+    private Double price;
     private Boolean available;
+
+
+    public Product(RegisterProductDTO registerProductDTO){
+        this.name = registerProductDTO.name();
+        this.description = registerProductDTO.description();
+        this.price = registerProductDTO.price();
+        this.available = false;
+    }
+
+    public void update(UpdateProductDTO updateProductDTO){
+        if(updateProductDTO.name() != null && updateProductDTO.name() != this.name){
+            this.name = updateProductDTO.name();
+        }
+        if(updateProductDTO.description() != null && updateProductDTO.description() != this.description){
+            this.description = updateProductDTO.description();
+        }
+        if(updateProductDTO.price() != null && updateProductDTO.price() != this.price){
+            this.price = updateProductDTO.price();
+        }
+    }
 
     @Override
     public String toString() {
