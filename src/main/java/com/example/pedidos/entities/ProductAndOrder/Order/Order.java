@@ -25,10 +25,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "order_number")
-    private String orderNumber;
     @Column(name = "total_price")
-    private Integer totalPrice;
+    private Double totalPrice;
     @Column(name = "order_status")
     private OrderStatus orderStatus;
 
@@ -40,8 +38,26 @@ public class Order {
     @JoinColumn(name = "deliveryman_id", referencedColumnName = "id")
     private Deliveryman deliveryman;
 
-    /*@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<Product> productList = new ArrayList<>();*/
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<ProductOrder> productList = new ArrayList<>();
 
+    public Order(Client client, Deliveryman deliveryman){
+        this.client = client;
+        this.deliveryman = deliveryman;
+    }
 
+    public void calculateTotalPrice(){
+        if(productList.isEmpty()){
+            return;
+        }
+
+        this.totalPrice = 0.0;
+        for(ProductOrder productOrder : productList){
+            totalPrice += productOrder.getProduct().getPrice();
+        }
+        /*this.totalPrice = productList.stream()
+                .map(p -> p.getPrice())
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+        */
+    }
 }

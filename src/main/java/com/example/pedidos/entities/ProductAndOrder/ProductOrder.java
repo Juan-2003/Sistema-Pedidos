@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Table(name = "product_order")
 @Getter
 @NoArgsConstructor
@@ -25,5 +26,10 @@ public class ProductOrder {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
+
+    public ProductOrder(Product product, Order order){
+        this.product = product;
+        this.order = order;
+    }
 
 }
