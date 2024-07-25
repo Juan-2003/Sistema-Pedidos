@@ -27,7 +27,9 @@ public class Order {
 
     @Column(name = "total_price")
     private Double totalPrice;
+
     @Column(name = "order_status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,20 +41,29 @@ public class Order {
     private Deliveryman deliveryman;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<ProductOrder> productList = new ArrayList<>();
+    private List<ProductOrder> productOrderList = new ArrayList<>();
 
     public Order(Client client, Deliveryman deliveryman){
         this.client = client;
         this.deliveryman = deliveryman;
+        this.orderStatus = OrderStatus.PENDING;
     }
 
+    public void updateOrderStatus(UpdateOrderDTO updateOrderDTO){
+        if(updateOrderDTO.orderStatus() != this.orderStatus){
+            this.orderStatus = updateOrderDTO.orderStatus();
+        }
+    }
+
+
+
     public void calculateTotalPrice(){
-        if(productList.isEmpty()){
+        if(productOrderList.isEmpty()){
             return;
         }
 
         this.totalPrice = 0.0;
-        for(ProductOrder productOrder : productList){
+        for(ProductOrder productOrder : productOrderList){
             totalPrice += productOrder.getProduct().getPrice();
         }
         /*this.totalPrice = productList.stream()

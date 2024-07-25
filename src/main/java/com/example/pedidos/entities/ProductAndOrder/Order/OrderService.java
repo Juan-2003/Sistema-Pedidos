@@ -10,9 +10,7 @@ import com.example.pedidos.entities.ProductAndOrder.ProductOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -41,10 +39,24 @@ public class OrderService {
             Product product = productRepository.findById(productId)
                     .orElseThrow(() -> new RuntimeException("Product not found: " + productId));
             ProductOrder productOrder = new ProductOrder(product, order);
-            order.getProductList().add(productOrder);
+            order.getProductOrderList().add(productOrder);
         }
         order.calculateTotalPrice();
+        orderRepository.save(order);
+        return new DetailsOrderDTO(order);
+    }
+
+    public DetailsOrderDTO updateOrder(UpdateOrderDTO updateOrderDTO){
+        Order order = orderRepository.getReferenceById(updateOrderDTO.id());
+        order.updateOrderStatus(updateOrderDTO);
 
         return new DetailsOrderDTO(order);
+    }
+
+    public Boolean deleteOrder(Long id){
+        Optional<Order> order = orderRepository.findById(id);
+        order.ifPresent(orderRepository::delete);
+
+        return order.isPresent();
     }
 }

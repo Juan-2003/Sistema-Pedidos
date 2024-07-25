@@ -1,16 +1,15 @@
 package com.example.pedidos.Controller;
 
-import com.example.pedidos.entities.ProductAndOrder.Order.DetailsOrderDTO;
-import com.example.pedidos.entities.ProductAndOrder.Order.OrderRepository;
-import com.example.pedidos.entities.ProductAndOrder.Order.OrderService;
-import com.example.pedidos.entities.ProductAndOrder.Order.RegisterOrderDTO;
+import com.example.pedidos.entities.ProductAndOrder.Order.*;
+import com.example.pedidos.entities.ProductAndOrder.Product.ShowProductDTO;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -33,4 +32,29 @@ public class OrderController {
                 .toUri();
         return ResponseEntity.created(url).body(detailsOrderDTO);
     }
+
+    @GetMapping
+    public ResponseEntity<Page<ShowOrderDTO>> showOrders(Pageable pageable){
+        return ResponseEntity.ok(orderRepository.findAll(pageable).map(ShowOrderDTO::new));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ShowOrderDTO> showOrder(@PathVariable Long id){
+        return ResponseEntity.ok(new ShowOrderDTO(orderRepository.getReferenceById(id)));
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<DetailsOrderDTO> updateOrder(@RequestBody @Valid UpdateOrderDTO updateOrderDTO){
+        DetailsOrderDTO detailsOrderDTO = orderService.updateOrder(updateOrderDTO);
+        return ResponseEntity.ok(detailsOrderDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deleteOrder(@PathVariable Long id){
+        return (orderService.deleteOrder(id))? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
+
+
 }

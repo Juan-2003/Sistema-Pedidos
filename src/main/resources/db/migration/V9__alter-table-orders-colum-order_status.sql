@@ -1,0 +1,1 @@
+ALTER TABLE orders CHANGE COLUMN order_status order_status varchar(15) NOT NULL;
