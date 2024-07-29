@@ -7,6 +7,8 @@ import com.example.pedidos.entities.DeliveryMan.DeliverymanRepository;
 import com.example.pedidos.entities.ProductAndOrder.Product.Product;
 import com.example.pedidos.entities.ProductAndOrder.Product.ProductRepository;
 import com.example.pedidos.entities.ProductAndOrder.ProductOrder;
+import com.example.pedidos.infra.ClientNotFound;
+import com.example.pedidos.infra.DeliverymanNotAvailable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,16 +30,18 @@ public class OrderService {
 
     public DetailsOrderDTO registerOrder(RegisterOrderDTO registerOrderDTO){
         Client client = clientRepository.findById(registerOrderDTO.idClient())
-                .orElseThrow(() -> new RuntimeException("Client not found"));
+                .orElseThrow(() -> new ClientNotFound("Client with id " + registerOrderDTO.idClient() + " doesn't exist"));
 
-        Deliveryman deliveryman = deliverymanRepository.findById(registerOrderDTO.idDeliveryman())
-                .orElseThrow(() -> new RuntimeException("Deliveryman not found"));
+        Deliveryman deliveryman = deliverymanRepository.foundAvailableDeliveryman()
+                .orElseThrow(() -> new DeliverymanNotAvailable(
+                        "There are no available any deliveryman in this moment"));
+
 
         Order order = new Order(client, deliveryman);
 
         for(Long productId : registerOrderDTO.productsId()){
             Product product = productRepository.findById(productId)
-                    .orElseThrow(() -> new RuntimeException("Product not found: " + productId));
+                    .orElseThrow(() -> new RuntimeException("Product with id " + productId + " not found"));
             ProductOrder productOrder = new ProductOrder(product, order);
             order.getProductOrderList().add(productOrder);
         }

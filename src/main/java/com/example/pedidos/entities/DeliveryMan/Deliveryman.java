@@ -32,9 +32,12 @@ public class Deliveryman {
     @OneToOne(mappedBy = "deliveryman")
     private Order order;
 
+    private Boolean available;
+
     public Deliveryman(RegisterDeliverymanDTO registerDeliverymanDTO){
         this.account = new Account(registerDeliverymanDTO.registerAccountDTO());
         this.vehicleData = new VehicleData(registerDeliverymanDTO.registerVehicleDataDTO());
+        this.available = true;
     }
 
     public void update(UpdateDeliverymanDTO updateDeliverymanDTO){

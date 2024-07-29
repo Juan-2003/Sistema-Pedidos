@@ -24,13 +24,15 @@ public class OrderController {
     private OrderRepository orderRepository;
 
     @PostMapping
-    public ResponseEntity<DetailsOrderDTO> registerOrder(@RequestBody @Valid RegisterOrderDTO registerOrderDTO, UriComponentsBuilder uriComponentsBuilder){
-        DetailsOrderDTO detailsOrderDTO = orderService.registerOrder(registerOrderDTO);
+    public void registerOrder(@RequestBody @Valid RegisterOrderDTO registerOrderDTO, UriComponentsBuilder uriComponentsBuilder){
+        //DetailsOrderDTO detailsOrderDTO = orderService.registerOrder(registerOrderDTO);
+        orderService.registerOrder(registerOrderDTO);
 
-        URI url = uriComponentsBuilder.path("/order/{id}")
+        /*URI url = uriComponentsBuilder.path("/order/{id}")
                 .buildAndExpand(detailsOrderDTO.id())
                 .toUri();
-        return ResponseEntity.created(url).body(detailsOrderDTO);
+         */
+        //return ResponseEntity.created(url).body(detailsOrderDTO);
     }
 
     @GetMapping

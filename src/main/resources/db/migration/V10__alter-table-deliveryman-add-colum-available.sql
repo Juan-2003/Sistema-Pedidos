@@ -1,0 +1,1 @@
+ALTER TABLE deliveryman ADD COLUMN available tinyint NOT NULL;

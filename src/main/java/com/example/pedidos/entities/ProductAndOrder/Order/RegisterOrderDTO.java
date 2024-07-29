@@ -8,8 +8,6 @@ public record RegisterOrderDTO(
         @NotNull
         Long idClient,
         @NotNull
-        Long idDeliveryman,
-        @NotNull
         List<Long> productsId
 ) {
 }
