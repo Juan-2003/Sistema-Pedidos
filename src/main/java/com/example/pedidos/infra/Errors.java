@@ -1,6 +1,7 @@
 package com.example.pedidos.infra;
 
 import com.example.pedidos.entities.ProductAndOrder.Order.DetailsOrderDTO;
+import com.example.pedidos.entities.ProductAndOrder.Order.OrderService;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,14 @@ public class Errors {
                 "Product Not Found", e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(detailsErrorValidation);
     }
+
+    @ExceptionHandler(OrderNotFound.class)
+    public ResponseEntity<DetailsErrorValidation> handleOrderNotFound(OrderNotFound e){
+        DetailsErrorValidation detailsErrorValidation = new DetailsErrorValidation(
+                "Order Not Found", e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(detailsErrorValidation);
+    }
+
 
     private record DetailsErrorValidation(String title, String mesaje){
         public DetailsErrorValidation(String title, String mesaje){

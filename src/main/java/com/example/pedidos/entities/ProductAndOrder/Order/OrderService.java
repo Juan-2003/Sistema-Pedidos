@@ -9,6 +9,8 @@ import com.example.pedidos.entities.ProductAndOrder.Product.ProductRepository;
 import com.example.pedidos.entities.ProductAndOrder.ProductOrder;
 import com.example.pedidos.infra.ClientNotFound;
 import com.example.pedidos.infra.DeliverymanNotAvailable;
+import com.example.pedidos.infra.OrderNotFound;
+import com.example.pedidos.infra.ProductNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,7 @@ public class OrderService {
     private ProductRepository productRepository;
 
     public DetailsOrderDTO registerOrder(RegisterOrderDTO registerOrderDTO){
+
         Client client = clientRepository.findById(registerOrderDTO.idClient())
                 .orElseThrow(() -> new ClientNotFound("Client with id " + registerOrderDTO.idClient() + " doesn't exist"));
 
@@ -36,15 +39,17 @@ public class OrderService {
                 .orElseThrow(() -> new DeliverymanNotAvailable(
                         "There are no available any deliveryman in this moment"));
 
-
+        deliveryman.setAvailable(false);
+        deliverymanRepository.save(deliveryman);
         Order order = new Order(client, deliveryman);
 
         for(Long productId : registerOrderDTO.productsId()){
             Product product = productRepository.findById(productId)
-                    .orElseThrow(() -> new RuntimeException("Product with id " + productId + " not found"));
+                    .orElseThrow(() -> new ProductNotFound("Product with id " + productId + " not found"));
             ProductOrder productOrder = new ProductOrder(product, order);
             order.getProductOrderList().add(productOrder);
         }
+
         order.calculateTotalPrice();
         orderRepository.save(order);
         return new DetailsOrderDTO(order);
@@ -58,9 +63,14 @@ public class OrderService {
     }
 
     public Boolean deleteOrder(Long id){
-        Optional<Order> order = orderRepository.findById(id);
-        order.ifPresent(orderRepository::delete);
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFound("Order with id " + id + " not Found"));
 
-        return order.isPresent();
+        Deliveryman deliveryman = order.getDeliveryman();
+        deliveryman.setAvailable(true);
+        deliverymanRepository.save(deliveryman);
+
+        orderRepository.delete(order);
+        return true;
     }
 }

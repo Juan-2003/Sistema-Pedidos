@@ -40,6 +40,10 @@ public class Deliveryman {
         this.available = true;
     }
 
+    public void setAvailable(Boolean available){
+        this.available = available;
+    }
+
     public void update(UpdateDeliverymanDTO updateDeliverymanDTO){
         account.update(updateDeliverymanDTO.updateAccountDTO());
         vehicleData.update(updateDeliverymanDTO.updateVehicleDataDTO());
