@@ -2,6 +2,7 @@ package com.example.pedidos.entities.Client;
 
 import com.example.pedidos.entities.Account.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,8 +15,12 @@ public class ClientService {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public DetailsClientDTO registerClient(RegisterClientDTO registerClientDTO) {
-        Client client = new Client(registerClientDTO);
+        String encodedPassword = passwordEncoder.encode(registerClientDTO.registerAccountDTO().password());
+        Client client = new Client(registerClientDTO, encodedPassword);
         clientRepository.save(client);
 
         return new DetailsClientDTO(client);

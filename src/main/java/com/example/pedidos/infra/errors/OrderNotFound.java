@@ -1,4 +1,4 @@
-package com.example.pedidos.infra;
+package com.example.pedidos.infra.errors;
 
 import com.example.pedidos.entities.ProductAndOrder.Order.OrderService;
 

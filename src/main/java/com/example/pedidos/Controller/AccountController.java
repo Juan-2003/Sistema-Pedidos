@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -21,15 +23,19 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
     @PostMapping
-    public ResponseEntity<DetailsAccountDTO> registerAccount(@RequestBody @Valid RegisterAccountDTO registerAccountDTO, UriComponentsBuilder uriComponentsBuilder){
-        DetailsAccountDTO detailsAccountDTO = accountService.registerAccount(registerAccountDTO);
+    public void registerAccount(@RequestBody @Valid RegisterAccountDTO registerAccountDTO, UriComponentsBuilder uriComponentsBuilder){
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(registerAccountDTO.mail(), registerAccountDTO.password());
+        var authenticateUser = authenticationManager.authenticate(authToken);
+        /*DetailsAccountDTO detailsAccountDTO = accountService.registerAccount(registerAccountDTO);
 
         URI url = uriComponentsBuilder.path("/account/{id}")
                 .buildAndExpand(detailsAccountDTO.id())
                 .toUri();
 
-        return ResponseEntity.created(url).body(detailsAccountDTO);
+        return ResponseEntity.created(url).body(detailsAccountDTO);*/
     }
 
     @GetMapping

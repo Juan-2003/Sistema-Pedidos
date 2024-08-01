@@ -1,6 +1,7 @@
 package com.example.pedidos.entities.DeliveryMan;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -10,8 +11,11 @@ public class DeliverymanService {
     @Autowired
     private DeliverymanRepository deliverymanRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     public DetailsDeliverymanDTO registerDeliveryman(RegisterDeliverymanDTO registerDeliverymanDTO){
-        Deliveryman deliveryman = new Deliveryman(registerDeliverymanDTO);
+        String encodedPassword = passwordEncoder.encode(registerDeliverymanDTO.registerAccountDTO().password());
+        Deliveryman deliveryman = new Deliveryman(registerDeliverymanDTO, encodedPassword);
         deliverymanRepository.save(deliveryman);
 
         return new DetailsDeliverymanDTO(deliveryman);

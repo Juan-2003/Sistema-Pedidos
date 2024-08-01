@@ -7,14 +7,12 @@ import com.example.pedidos.entities.DeliveryMan.DeliverymanRepository;
 import com.example.pedidos.entities.ProductAndOrder.Product.Product;
 import com.example.pedidos.entities.ProductAndOrder.Product.ProductRepository;
 import com.example.pedidos.entities.ProductAndOrder.ProductOrder;
-import com.example.pedidos.infra.ClientNotFound;
-import com.example.pedidos.infra.DeliverymanNotAvailable;
-import com.example.pedidos.infra.OrderNotFound;
-import com.example.pedidos.infra.ProductNotFound;
+import com.example.pedidos.infra.errors.ClientNotFound;
+import com.example.pedidos.infra.errors.DeliverymanNotAvailable;
+import com.example.pedidos.infra.errors.OrderNotFound;
+import com.example.pedidos.infra.errors.ProductNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class OrderService {

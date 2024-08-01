@@ -30,8 +30,8 @@ public class Client {
     @OneToMany(mappedBy = "client")
     private List<Order> orderList = new ArrayList<>();
 
-    Client(RegisterClientDTO registerClientDTO){
-        this.account = new Account(registerClientDTO.registerAccountDTO());
+    Client(RegisterClientDTO registerClientDTO, String encodedPassword){
+        this.account = new Account(registerClientDTO.registerAccountDTO(), encodedPassword);
     }
 
     public void update(UpdateClientDTO updateClientDTO){

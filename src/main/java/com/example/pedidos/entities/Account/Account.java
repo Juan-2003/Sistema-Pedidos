@@ -6,8 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity(name = "Account")
 @Table(name = "account")
@@ -15,7 +20,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode(of = "id")
-public class Account {
+public class Account implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,9 +43,9 @@ public class Account {
         this.data = new Data(name, maternalSurName, paternalSurName, address, phoneNumber, birthday);
     }
 
-    public Account(RegisterAccountDTO registerAccountDTO){
+    public Account(RegisterAccountDTO registerAccountDTO, String encodedPassword){
         this.mail = registerAccountDTO.mail();
-        this.password = registerAccountDTO.password();
+        this.password = encodedPassword;
         this.accountRole = AccountRole.fromString(registerAccountDTO.role());
         this.data = new Data(registerAccountDTO.dataDTO());
     }
@@ -53,6 +58,40 @@ public class Account {
             this.password = updateAccountDTO.password();
         }
     }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + accountRole.name()));
+    }
+
+    @Override
+    public String getPassword(){
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return data.getName();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
     @Override
     public String toString() {
@@ -62,4 +101,5 @@ public class Account {
                 ", accountRole=" + accountRole +
                 '}';
     }
+
 }

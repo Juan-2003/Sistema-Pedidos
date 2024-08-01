@@ -34,8 +34,8 @@ public class Deliveryman {
 
     private Boolean available;
 
-    public Deliveryman(RegisterDeliverymanDTO registerDeliverymanDTO){
-        this.account = new Account(registerDeliverymanDTO.registerAccountDTO());
+    public Deliveryman(RegisterDeliverymanDTO registerDeliverymanDTO, String encodedPassword){
+        this.account = new Account(registerDeliverymanDTO.registerAccountDTO(), encodedPassword);
         this.vehicleData = new VehicleData(registerDeliverymanDTO.registerVehicleDataDTO());
         this.available = true;
     }
