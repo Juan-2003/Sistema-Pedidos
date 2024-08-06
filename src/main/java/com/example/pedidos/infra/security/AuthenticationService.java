@@ -2,6 +2,7 @@ package com.example.pedidos.infra.security;
 
 import com.example.pedidos.entities.Account.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,6 +15,11 @@ public class AuthenticationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-        return accountRepository.findByMail(mail);
+        System.out.println("mail: " + mail);
+        UserDetails userDetails = accountRepository.findByMail(mail);
+        if(userDetails == null){
+            System.out.println("Es nulooooo");
+        }
+        return userDetails;
     }
 }
