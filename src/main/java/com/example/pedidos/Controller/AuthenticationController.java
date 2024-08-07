@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/log-in")
+@RequestMapping("/login")
 public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
@@ -24,14 +24,10 @@ public class AuthenticationController {
 
     @PostMapping
     public ResponseEntity<JWTDataDTO> userAuthentication(@RequestBody AuthenticateDataDTO authenticateDataDTO){
-        System.out.println(1);
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                 authenticateDataDTO.mail(), authenticateDataDTO.password());
-        System.out.println(3);
         var authenticateUser = authenticationManager.authenticate(authToken);
-        System.out.println(4);
         var JWTtoken = tokenService.generateToken((Account) authenticateUser.getPrincipal());
-        System.out.println(5);
         return ResponseEntity.ok(new JWTDataDTO(JWTtoken));
     }
 }
