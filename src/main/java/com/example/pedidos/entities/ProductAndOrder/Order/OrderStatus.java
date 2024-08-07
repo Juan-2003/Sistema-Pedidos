@@ -1,4 +1,4 @@
-package com.example.pedidos.model;
+package com.example.pedidos.entities.ProductAndOrder.Order;
 
 public enum OrderStatus {
     PENDING("pending", "pendiente"),

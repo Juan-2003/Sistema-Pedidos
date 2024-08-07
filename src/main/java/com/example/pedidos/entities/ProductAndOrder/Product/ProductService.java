@@ -1,5 +1,6 @@
 package com.example.pedidos.entities.ProductAndOrder.Product;
 
+import com.example.pedidos.infra.errors.ProductNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,13 @@ public class ProductService {
         return new DetailsProductDTO(product);
     }
 
+    public ShowProductDTO showProductDTO(Long id){
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFound("Product with id: "+ id +" doesn´t exist"));
+        return new ShowProductDTO(product);
+
+    }
+
     public DetailsProductDTO updateProduct(UpdateProductDTO updateProductDTO){
         Product product = productRepository.getReferenceById(updateProductDTO.id());
         product.update(updateProductDTO);
@@ -24,11 +32,10 @@ public class ProductService {
         return new DetailsProductDTO(product);
     }
 
-    public Boolean deleteProduct(Long id){
-        Optional<Product> product = productRepository.findById(id);
+    public void deleteProduct(Long id){
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFound("Product with id: " + id + " doesn´t exist"));
 
-        product.ifPresent(productRepository::delete);
-
-        return product.isPresent();
+        productRepository.delete(product);
     }
 }

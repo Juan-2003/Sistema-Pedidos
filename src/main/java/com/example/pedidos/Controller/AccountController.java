@@ -40,7 +40,8 @@ public class AccountController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ShowAccountDTO> showAccount(@PathVariable Long id){
-        return ResponseEntity.ok(new ShowAccountDTO(accountRepository.getReferenceById(id)));
+        ShowAccountDTO showAccountDTO = accountService.showAccount(id);
+        return ResponseEntity.ok(showAccountDTO);
     }
 
     @PutMapping

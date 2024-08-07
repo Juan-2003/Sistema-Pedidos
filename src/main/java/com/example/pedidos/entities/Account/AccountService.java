@@ -1,5 +1,6 @@
 package com.example.pedidos.entities.Account;
 
+import com.example.pedidos.infra.errors.AccountNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,12 @@ public class AccountService {
 
         return new DetailsAccountDTO(account);
 
+    }
+
+    public ShowAccountDTO showAccount(Long id){
+        Account account = accountRepository.findById(id)
+                .orElseThrow(()-> new AccountNotFound("The account with id: " + id + " doesn't exist"));
+        return new ShowAccountDTO(account);
     }
 
     public void updateAccount(UpdateAccountDTO updateAccountDTO){

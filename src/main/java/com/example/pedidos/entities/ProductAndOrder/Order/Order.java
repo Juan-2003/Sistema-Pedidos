@@ -2,9 +2,7 @@ package com.example.pedidos.entities.ProductAndOrder.Order;
 
 import com.example.pedidos.entities.Client.Client;
 import com.example.pedidos.entities.DeliveryMan.Deliveryman;
-import com.example.pedidos.entities.ProductAndOrder.Product.Product;
 import com.example.pedidos.entities.ProductAndOrder.ProductOrder;
-import com.example.pedidos.model.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

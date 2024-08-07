@@ -36,6 +36,13 @@ public class Errors {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(detailsErrorValidation);
     }
 
+    @ExceptionHandler(AccountNotFound.class)
+    public ResponseEntity<DetailsErrorValidation> handleAccountNotFound(AccountNotFound e){
+        DetailsErrorValidation detailsErrorValidation = new DetailsErrorValidation(
+                "Account Not Found", e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(detailsErrorValidation);
+    }
+
 
     private record DetailsErrorValidation(String title, String mesaje){
         public DetailsErrorValidation(String title, String mesaje){

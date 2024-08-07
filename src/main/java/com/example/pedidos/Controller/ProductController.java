@@ -39,7 +39,8 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ShowProductDTO> showProduct(@PathVariable Long id){
-        return ResponseEntity.ok(new ShowProductDTO(productRepository.getReferenceById(id)));
+        ShowProductDTO showProductDTO = productService.showProductDTO(id);
+        return ResponseEntity.ok(showProductDTO);
     }
 
     @PutMapping
@@ -52,7 +53,8 @@ public class ProductController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity deleteProduct(@PathVariable Long id){
-        return (productService.deleteProduct(id))? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
     }
 
 

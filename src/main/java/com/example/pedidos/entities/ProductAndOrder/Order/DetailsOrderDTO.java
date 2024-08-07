@@ -1,7 +1,6 @@
 package com.example.pedidos.entities.ProductAndOrder.Order;
 
 import com.example.pedidos.entities.ProductAndOrder.Product.DetailsProductDTO;
-import com.example.pedidos.model.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
