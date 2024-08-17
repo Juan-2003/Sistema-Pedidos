@@ -41,7 +41,8 @@ public class DeliveryManController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ShowDeliverymanDTO> showDeliveryman(@PathVariable Long id){
-        return ResponseEntity.ok(new ShowDeliverymanDTO(deliverymanRepository.getReferenceById(id)));
+        ShowDeliverymanDTO showDeliverymanDTO = deliverymanService.showDeliveryman(id);
+        return ResponseEntity.ok(showDeliverymanDTO);
     }
 
     @PutMapping
@@ -54,7 +55,8 @@ public class DeliveryManController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity deleteDeliveryman(@PathVariable Long id){
-        return (deliverymanService.deleteDeliveryman(id))? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+        deliverymanService.deleteDeliveryman(id);
+        return ResponseEntity.noContent().build();
 
     }
 }

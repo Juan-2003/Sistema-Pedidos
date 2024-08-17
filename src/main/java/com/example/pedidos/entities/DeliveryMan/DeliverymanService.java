@@ -1,5 +1,6 @@
 package com.example.pedidos.entities.DeliveryMan;
 
+import com.example.pedidos.infra.errors.DeliverymanNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,13 @@ public class DeliverymanService {
         return new DetailsDeliverymanDTO(deliveryman);
     }
 
+    public ShowDeliverymanDTO showDeliveryman(Long id){
+        Deliveryman deliveryman = deliverymanRepository.findById(id)
+                .orElseThrow(() -> new DeliverymanNotFound("Deliveryman with id " + id + " doesn´t exist"));
+
+        return new ShowDeliverymanDTO(deliveryman);
+    }
+
     public DetailsDeliverymanDTO updateDeliveryman(UpdateDeliverymanDTO updateDeliverymanDTO){
         Deliveryman deliveryman = deliverymanRepository.getReferenceById(updateDeliverymanDTO.id());
         deliveryman.update(updateDeliverymanDTO);
@@ -29,11 +37,10 @@ public class DeliverymanService {
 
     }
 
-    public boolean deleteDeliveryman(Long id){
-        Optional<Deliveryman> deliveryman = deliverymanRepository.findById(id);
+    public void deleteDeliveryman(Long id){
+        Deliveryman deliveryman = deliverymanRepository.findById(id)
+                .orElseThrow(() -> new DeliverymanNotFound("Deliveryman with id " + id + " doesn´t exist"));
 
-        deliveryman.ifPresent(deliverymanRepository::delete);
-
-        return deliveryman.isPresent();
+        deliverymanRepository.delete(deliveryman);
     }
 }

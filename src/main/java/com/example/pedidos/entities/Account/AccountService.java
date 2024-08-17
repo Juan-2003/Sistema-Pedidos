@@ -1,11 +1,10 @@
 package com.example.pedidos.entities.Account;
 
+import com.example.pedidos.infra.errors.AccountDuplicated;
 import com.example.pedidos.infra.errors.AccountNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class AccountService {
@@ -16,6 +15,14 @@ public class AccountService {
     private PasswordEncoder passwordEncoder;
 
     public DetailsAccountDTO registerAccount(RegisterAccountDTO registerAccountDTO){
+        if(accountRepository.existsByMail(registerAccountDTO.mail())){
+            throw new AccountDuplicated("Account with mail: " + registerAccountDTO.mail() + " already exists");
+        }
+        if(accountRepository.existsByData_PhoneNumber(registerAccountDTO.dataDTO().phoneNumber())){
+            throw new AccountDuplicated(
+                    "Account with phone number: " + registerAccountDTO.dataDTO().phoneNumber() + " already exists");
+        }
+
         String password = passwordEncoder.encode(registerAccountDTO.password());
         Account account = new Account(registerAccountDTO, password);
         accountRepository.save(account);
@@ -39,13 +46,10 @@ public class AccountService {
     }
 
 
-    public boolean deleteAccount(Long id){
-        Optional<Account> account = accountRepository.findById(id);
+    public void deleteAccount(Long id){
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new AccountNotFound("The account with id: " + id + " doesn't exist"));
 
-        if(account.isEmpty()){
-            return false;
-        }
-        accountRepository.delete(account.get());
-        return true;
+        accountRepository.delete(account);
     }
 }

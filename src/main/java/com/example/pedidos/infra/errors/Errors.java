@@ -43,6 +43,20 @@ public class Errors {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(detailsErrorValidation);
     }
 
+    @ExceptionHandler(DeliverymanNotFound.class)
+    public ResponseEntity<DetailsErrorValidation> handleDeliverymanNotFound(DeliverymanNotFound e){
+        DetailsErrorValidation detailsErrorValidation = new DetailsErrorValidation(
+                "Deliveryman Not Found", e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(detailsErrorValidation);
+    }
+
+    @ExceptionHandler(AccountDuplicated.class)
+    public ResponseEntity<DetailsErrorValidation> handleAccountDuplicaded(AccountDuplicated e){
+        DetailsErrorValidation detailsErrorValidation = new DetailsErrorValidation(
+                "Account Duplicated", e.getMessage());
+        return ResponseEntity.badRequest().body(detailsErrorValidation);
+    }
+
 
     private record DetailsErrorValidation(String title, String mesaje){
         public DetailsErrorValidation(String title, String mesaje){
